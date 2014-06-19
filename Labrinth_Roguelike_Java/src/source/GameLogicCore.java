@@ -146,7 +146,15 @@ public class GameLogicCore {
         int keycode = e.getKeyCode();
  
         if(menuMode){
-            System.out.println("Entering Menu Mode switch!");
+            ACTIVEMENU.InputHandler(e);
+            if(keycode == KeyEvent.VK_M){
+                System.out.println("Menu M!");
+                menuMode = false;
+                turnContinues = true;}
+            else{turnContinues = true;}
+            return turnContinues;
+        }
+            /*System.out.println("Entering Menu Mode switch!");
             switch (keycode){
             case KeyEvent.VK_LEFT:
             System.out.println("Menu Left!");
@@ -171,7 +179,7 @@ public class GameLogicCore {
             default: 
                 turnContinues = true;
                 }
-            return turnContinues;}
+            return turnContinues;}*/
         
         
         if(keycode == KeyEvent.VK_LEFT){
@@ -230,6 +238,7 @@ public class GameLogicCore {
         //System.out.println("Player x is: "+PLAYER.getX());
         //System.out.println("Player y is: "+PLAYER.getY());
         return turnContinues;}
+        
        
     
     private boolean isPlayerTurnNext(){

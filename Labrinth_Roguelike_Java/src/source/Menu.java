@@ -23,7 +23,36 @@ public class Menu {
     }
     
     
-    public void InputHandler(KeyEvent e){}
+    public void InputHandler(KeyEvent e){
+        int keycode = e.getKeyCode();
+        int x;
+        int y;
+        switch(keycode){
+        case KeyEvent.VK_ENTER:
+            break;
+        case KeyEvent.VK_UP:
+            break;
+        case KeyEvent.VK_DOWN:
+            break;
+        case KeyEvent.VK_LEFT:
+            for(Sprite s: spriteList){
+                if(s instanceof LocatedSprite){
+                    x = ((LocatedSprite) s).getLocationX();
+                    x-=10;
+                    ((LocatedSprite) s).setLocationX(x);}}
+            break;
+        case KeyEvent.VK_RIGHT:
+            for(Sprite s: spriteList){
+                if(s instanceof LocatedSprite){
+                    x = ((LocatedSprite) s).getLocationX();
+                    x+=10;
+                    ((LocatedSprite) s).setLocationX(x);}}
+            break;
+            
+        default:
+            break;
+            }
+    }
     
     public Sprite getBackgroundSprite() {return backgroundSprite;}
     public void setBackgroundSprite(Sprite backgroundSprite) {this.backgroundSprite = backgroundSprite;}
