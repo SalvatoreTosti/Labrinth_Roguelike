@@ -1,6 +1,5 @@
 package source;
 
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,6 +14,9 @@ import javax.imageio.stream.ImageInputStream;
 import source.Actors.Actor;
 import source.Actors.NPC;
 import source.Actors.Player;
+import source.Items.Item;
+import source.menu_helpers.InventoryBackend;
+import source.menu_helpers.MenuBackend;
 import world_helpers.WorldBuilder;
 
 public class GameLogicCore {
@@ -33,13 +35,17 @@ public class GameLogicCore {
     private int RENDER_LENSE_SIZE =5;
     Menu ACTIVEMENU;
     Menu SPLASHMENU;
+    private int FRAMESIZEX;
+    private int FRAMESIZEY;
     
-    public GameLogicCore(){
+    public GameLogicCore(int framesizex, int framesizey){
+        FRAMESIZEX = framesizex;
+        FRAMESIZEY = framesizey;
         ACTIVEMENU = null;
         openingMenu = true;
         paused = false;
         waitingForPlayerInput = true;
-        SPLASHMENU = new Menu();
+        SPLASHMENU = new Menu(FRAMESIZEX,FRAMESIZEY);
         loadSplashMenu();
         ACTIVEMENU = SPLASHMENU;
     }
@@ -82,12 +88,14 @@ public class GameLogicCore {
         spriteRip(TILESIZE,TILESIZE);
         loadRandomWorld();
         openingMenu = false;
-        ACTIVEMENU = null;
+        ACTIVEMENU = new Menu(FRAMESIZEX,FRAMESIZEX);
+        ACTIVEMENU.loadAlternateBackgroundSprite();
         paused = false;
         waitingForPlayerInput = true;  
     }
     
     private void prepareLogicAssets(){
+        setupPlayer();
         ticker.addToTickList(PLAYER, 1);
         ArrayList<Actor> npcs = new ArrayList<Actor>();
         NPC n = new NPC();
@@ -98,6 +106,11 @@ public class GameLogicCore {
  System.out.println("Added "+a.getName()+" to the list!");}
         //setRENDER_LENSESIZE(5);
     }
+    
+    private void setupPlayer(){
+        PLAYER.setBackpack(new ArrayList<Item>()); 
+    }
+    
     
     public void HandleNextTick(){
         if(isPlayerTurnNext()){
@@ -187,12 +200,11 @@ public class GameLogicCore {
             turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
             if(!turnContinues){waitTicks = 10;}
         }
-
         else if(keycode == KeyEvent.VK_RIGHT){
             int newX = PLAYER.getX()+1;
             turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
             if(!turnContinues){waitTicks = 10;}
-            }
+        }
         else if(keycode == KeyEvent.VK_UP){
             int newY = PLAYER.getY()-1;
             turnContinues = AttemptMovePlayer(PLAYER.getX(),newY);
@@ -221,7 +233,9 @@ public class GameLogicCore {
         }
         else if(keycode == KeyEvent.VK_M){
             menuMode = true;
-            ACTIVEMENU = SPLASHMENU;
+            Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
+            //m.setMenuBackend(new InventoryBackend(PLAYER));
+            setActiveMenu(m);
             turnContinues = true;
         }
         
@@ -239,6 +253,9 @@ public class GameLogicCore {
         //System.out.println("Player y is: "+PLAYER.getY());
         return turnContinues;}
         
+    private void setActiveMenu(Menu m){
+        ACTIVEMENU = m;
+    }
        
     
     private boolean isPlayerTurnNext(){
@@ -332,8 +349,7 @@ public class GameLogicCore {
     private void loadRandomWorld(){
         WorldBuilder builder = new WorldBuilder(WORLD);
         builder.buildRandomLabrinth(sprites);
-        
-        
+           
         
     /*int sizeX = WORLD.getSizeX();
     int sizeY = WORLD.getSizeY();

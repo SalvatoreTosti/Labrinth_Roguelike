@@ -27,7 +27,7 @@ public class Game extends JPanel {
     
     int x = 0;
     int y = 0;
-    GameLogicCore CORE = new GameLogicCore();
+    GameLogicCore CORE = new GameLogicCore(FRAMESIZEX,FRAMESIZEY);
     BufferedImage RENDER_CANVAS;
    
     //Menu SPLASHMENU = new Menu();
@@ -50,6 +50,7 @@ public class Game extends JPanel {
     
     private void gameSetup(){
         RENDER_CANVAS = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
+        
         //!!!HACK
         //These methods should be called within the game as part of setup
         //CORE.loadSpriteSheet();   
@@ -78,27 +79,18 @@ public class Game extends JPanel {
         }    
   
     private void updateOpeningMenu(){
-        BufferedImage img = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
-        Graphics g = img.getGraphics();
-        CORE.ACTIVEMENU.updateSpriteFrames();
-        //CORE.ACTIVEMENU.updateSpriteFrames();
-       
+        //BufferedImage img = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
+        //Graphics g = img.getGraphics();
         
-        g.drawImage(CORE.SPLASHMENU.getBackgroundSprite().getSpriteImage(),0,0,null);
-        for(Sprite s: CORE.SPLASHMENU.getSpriteList()){
-            if(s instanceof LocatedSprite){
-                int x = ((LocatedSprite) s).getLocationX();
-                int y = ((LocatedSprite) s).getLocationY();
-                g.drawImage(s.getSpriteImage(),x,y,null);
-                }
-            else{g.drawImage(s.getSpriteImage(),0,0,null);}
-        }
-        g = RENDER_CANVAS.getGraphics();
-        g.drawImage(img,0,0,null);
+        CORE.ACTIVEMENU.updateSpriteFrames();
+        BufferedImage menu = CORE.ACTIVEMENU.drawMenu();
+        
+        Graphics g = RENDER_CANVAS.getGraphics();
+        g.drawImage(menu,0,0,null);
     }
     
     private void updateActiveMenu(){
-        BufferedImage img = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
+        /*BufferedImage img = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
         Graphics g = img.getGraphics();
         CORE.ACTIVEMENU.updateSpriteFrames();
         
@@ -110,9 +102,13 @@ public class Game extends JPanel {
                 g.drawImage(s.getSpriteImage(),x,y,null);
                 }
             else{g.drawImage(s.getSpriteImage(),0,0,null);}
-        }
-        g = RENDER_CANVAS.getGraphics();
-        g.drawImage(img,0,0,null);
+        }*/
+        if(CORE.ACTIVEMENU==null){System.out.println("Menu is null.");}
+        CORE.ACTIVEMENU.updateSpriteFrames();
+        BufferedImage menu = CORE.ACTIVEMENU.drawMenu();
+        
+        Graphics g = RENDER_CANVAS.getGraphics();
+        g.drawImage(menu,0,0,null);
     }
     
     private void renderActiveGame(){

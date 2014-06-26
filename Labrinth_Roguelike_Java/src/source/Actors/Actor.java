@@ -232,5 +232,8 @@ public class Actor {
     public int getY(){return y;}
     public void setX(int newX){x = newX;}
     public void setY(int newY){y = newY;}
+
+    public ArrayList<Item> getBackpack() {return backpack;}
+    public void setBackpack(ArrayList<Item> backpack) {this.backpack = backpack;}
     
 }
