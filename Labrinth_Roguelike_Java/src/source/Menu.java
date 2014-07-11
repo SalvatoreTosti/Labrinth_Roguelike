@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import source.menu_helpers.MenuBackend;
+import source.menu_helpers.MenuLogic;
 
 public class Menu {
     private Sprite backgroundSprite;
@@ -26,6 +27,17 @@ public class Menu {
      */
     
     private MenuBackend menuBackend;
+    private MenuLogic logic;
+    
+    public Menu(int x, int y, MenuLogic log){
+        logic = log;
+        backgroundSprite = logic.getBackground();
+        spriteList = logic.getMenuElements();
+        FRAMESIZEX = x;
+        FRAMESIZEY = y;
+    }
+    
+    
     
     public Menu(int x, int y,MenuBackend backend){
         backgroundSprite = backend.getBackgroundSprite();
@@ -33,9 +45,18 @@ public class Menu {
         FRAMESIZEX = x;
         FRAMESIZEY = y;
         menuBackend = backend;
-        spriteList = backend.getItemSprites();
-        spriteList.addAll(backend.getMenuElements());
+        spriteList = backend.getMenuElements();
+        //spriteList = backend.getItemSprites();
+        //spriteList = new ArrayList<Sprite>();
+        
+       if(backend.getMenuElements() == null){
+           System.out.println("null!");
+       }
+        if(!backend.getMenuElements().isEmpty()){
+            spriteList.addAll(backend.getMenuElements());}
     }
+    
+   
     
     public Menu(int x, int y){
         backgroundSprite = loadDefaultBackgroundSprite();
@@ -53,12 +74,19 @@ public class Menu {
     
     
     public void InputHandler(KeyEvent e){
-        if(menuBackend == null){nullBackendKeyEventHandler(e);}
+        if(logic == null){nullBackendKeyEventHandler(e);}
+        else{
+            int keycode = e.getKeyCode();
+            logic.eventHandler(e);
+        }
+        
+        
+        /*if(menuBackend == null){nullBackendKeyEventHandler(e);}
         else{
             int keycode = e.getKeyCode();
             menuBackend.InputHandler(e);
             
-        }
+        }*/
         
         
     }
@@ -148,7 +176,7 @@ public class Menu {
         return sprt;
     }
     
-    //Test method, used to set a different background for the 'defualt' active menu.
+    //Test method, used to set a different background for the 'default' active menu.
     public void loadAlternateBackgroundSprite(){
         BufferedImage Background = null;
         try {
@@ -165,8 +193,8 @@ public class Menu {
     public Sprite getBackgroundSprite() {return backgroundSprite;}
     public void setBackgroundSprite(Sprite backgroundSprite) {this.backgroundSprite = backgroundSprite;}
     public ArrayList<Sprite> getSpriteList(){return spriteList;}
-    public MenuBackend getMenuBackend() {return menuBackend;}
-    public void setMenuBackend(MenuBackend menuBackend) {this.menuBackend = menuBackend;}
-    
+    //public MenuBackend getMenuBackend() {return menuBackend;}
+    //public void setMenuBackend(MenuBackend menuBackend) {this.menuBackend = menuBackend;}
+    public MenuLogic getLogic(){return logic;}
     
 }

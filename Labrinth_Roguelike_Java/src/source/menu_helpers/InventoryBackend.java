@@ -21,11 +21,14 @@ public class InventoryBackend extends MenuBackend {
     private ArrayList<Sprite> menuElements;
     
     public InventoryBackend(Player p){
+        super();
         player = p;
         itemSprites = new ArrayList<Sprite>();
-        menuElements = new ArrayList<Sprite>();
         loadPlayerInventorySprites();
-        loadMenuElements();
+        if (menuElements == null){
+            System.out.println("Null inside inv backend.");}
+        
+        //loadMenuElements(); //encapsulated in super()
         //loadMenuElements would be for loading generic elments of a menu.
         //i.e. pointers, dividers, other images.
         
@@ -48,12 +51,12 @@ public class InventoryBackend extends MenuBackend {
            itemSprites.add(i.getItemSprite());}}
     }
     
-    private void loadMenuElements(){
+    /*private void loadMenuElements(){
         Sprite sprt = loadGIFImage("Resources/SpinArrowClear.gif");
         //sprt.setAnimationDelay(100);
         LocatedSprite lsprt = new LocatedSprite(sprt,150,232);
         menuElements.add(lsprt);
-    }
+    }*/
     
     public void InputHandler(KeyEvent e){
         int keycode = e.getKeyCode();
@@ -107,7 +110,7 @@ public class InventoryBackend extends MenuBackend {
      * 'higher' logic in the program.
      */
     
-    private Sprite loadGIFImage(String location){
+    /*private Sprite loadGIFImage(String location){
         ArrayList<BufferedImage> spriteAnim = new ArrayList<BufferedImage>();
         ImageReader reader = ImageIO.getImageReadersBySuffix("GIF").next();
         try{
@@ -122,7 +125,7 @@ public class InventoryBackend extends MenuBackend {
             e.printStackTrace();}
         BufferedImage[] b = new BufferedImage[spriteAnim.size()];
         Sprite sprite = new Sprite(spriteAnim.get(0),100,spriteAnim.toArray(b));
-        return sprite;}
+        return sprite;}*/
     
     public ArrayList<Sprite> getItemSprites(){return itemSprites;}
     public ArrayList<Sprite> getMenuElements(){return menuElements;}

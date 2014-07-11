@@ -17,6 +17,9 @@ import source.Actors.Player;
 import source.Items.Item;
 import source.menu_helpers.InventoryBackend;
 import source.menu_helpers.MenuBackend;
+import source.menu_helpers.MenuLogic;
+import source.menu_helpers.PlayerCreationBackend;
+import source.menu_helpers.PlayerCreationLogic;
 import world_helpers.WorldBuilder;
 
 public class GameLogicCore {
@@ -88,8 +91,18 @@ public class GameLogicCore {
         spriteRip(TILESIZE,TILESIZE);
         loadRandomWorld();
         openingMenu = false;
-        ACTIVEMENU = new Menu(FRAMESIZEX,FRAMESIZEX);
+        menuMode = true;
+        MenuLogic logic = new PlayerCreationLogic();
+        ACTIVEMENU = new Menu(FRAMESIZEX, FRAMESIZEY, logic);
+        //MenuBackend backend = new PlayerCreationBackend(PLAYER);
+        //ACTIVEMENU = new Menu(FRAMESIZEX, FRAMESIZEY, backend);
+        //Player creation menu goes here.
+        
+        
+        //ACTIVEMENU = new Menu(FRAMESIZEX,FRAMESIZEX);
         ACTIVEMENU.loadAlternateBackgroundSprite();
+        
+        
         paused = false;
         waitingForPlayerInput = true;  
     }
@@ -160,11 +173,15 @@ public class GameLogicCore {
  
         if(menuMode){
             ACTIVEMENU.InputHandler(e);
-            if(keycode == KeyEvent.VK_M){
-                System.out.println("Menu M!");
-                menuMode = false;
-                turnContinues = true;}
-            else{turnContinues = true;}
+            //if(keycode == KeyEvent.VK_M){
+            //    System.out.println("Menu M!");
+            //    menuMode = false;
+            //    turnContinues = true;}
+            //else{turnContinues = true;}
+            if(!ACTIVEMENU.getLogic().isMenuActive()){
+                menuMode=false;}
+                
+            turnContinues=true;
             return turnContinues;
         }
             /*System.out.println("Entering Menu Mode switch!");
@@ -233,7 +250,8 @@ public class GameLogicCore {
         }
         else if(keycode == KeyEvent.VK_M){
             menuMode = true;
-            Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
+            Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new PlayerCreationLogic());
+            //Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
             //m.setMenuBackend(new InventoryBackend(PLAYER));
             setActiveMenu(m);
             turnContinues = true;
