@@ -140,8 +140,11 @@ public class GameLogicCore {
         if(openingMenu){openingMenuInputHandler(e);}
         else if(paused){pausedMenuInputHandler(e);}
         else{waitingForPlayerInput = HandlePlayerNextTick(e);}
-    }
+    }  
     
+    //!!!NOTE:
+    //I think this should be pushed down into somekind of logic handler for the menu.
+    //especially seeing as opening menu is a type of menu.
     private void openingMenuInputHandler(KeyEvent e){
         ACTIVEMENU.InputHandler(e);
         int keycode = e.getKeyCode();
@@ -180,39 +183,70 @@ public class GameLogicCore {
             //else{turnContinues = true;}
             if(!ACTIVEMENU.getLogic().isMenuActive()){
                 menuMode=false;}
-                
             turnContinues=true;
             return turnContinues;
         }
-            /*System.out.println("Entering Menu Mode switch!");
-            switch (keycode){
-            case KeyEvent.VK_LEFT:
-            System.out.println("Menu Left!");
-                turnContinues = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                System.out.println("Menu Right!");
-                turnContinues = true;
-                break; 
-            case  KeyEvent.VK_UP:
-                System.out.println("Menu Up!");
-                turnContinues = true;
-                break;
-            case KeyEvent.VK_DOWN:
-                System.out.println("Menu Down!");
-                turnContinues = true;
-                break;
-            case KeyEvent.VK_M:
-            System.out.println("Menu M!");
-                menuMode = false;
-                break;
-            default: 
-                turnContinues = true;
-                }
-            return turnContinues;}*/
+        int newX, newY;
+        switch(keycode) {
+        case(KeyEvent.VK_LEFT):  
+            newX = PLAYER.getX()-1;
+            turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
+            if(!turnContinues){waitTicks = 10;}
+            break;
+            
+        case(KeyEvent.VK_RIGHT):
+            newX = PLAYER.getX()+1;
+            turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
+            if(!turnContinues){waitTicks = 10;}
+            break;
+            
+        case(KeyEvent.VK_UP):
+            newY = PLAYER.getY()-1;
+            turnContinues = AttemptMovePlayer(PLAYER.getX(),newY);
+            if(!turnContinues){waitTicks = 10;}
+            break;
+            
+        case(KeyEvent.VK_DOWN):
+            newY = PLAYER.getY()+1;
+            turnContinues = AttemptMovePlayer(PLAYER.getX(),newY);
+            if(!turnContinues){waitTicks = 10;}
+            break;
+            
+        case(KeyEvent.VK_Q):
+            //System.out.println("Lense Size: "+RENDER_LENSE_SIZE);
+            RENDER_LENSE_SIZE-=2;
+            if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
+            else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
+            else{}
+            turnContinues = true;
+            break;
+            
+        case(KeyEvent.VK_E):
+            //System.out.println("Lense Size: "+RENDER_LENSE_SIZE);
+            RENDER_LENSE_SIZE+=2;
+            if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
+            else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
+            else{}
+            turnContinues = true;
+            break;
+            
+        case(KeyEvent.VK_M):
+            menuMode = true;
+            Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new PlayerCreationLogic());
+            //Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
+            //m.setMenuBackend(new InventoryBackend(PLAYER));
+            setActiveMenu(m);
+            turnContinues = true;
+            break;
+            
+        default: 
+            System.out.println("Invalid key pressed, did nothing.");
+            turnContinues = true;
+            break;
+        }
         
         
-        if(keycode == KeyEvent.VK_LEFT){
+        /*if(keycode == KeyEvent.VK_LEFT){
             int newX = PLAYER.getX()-1;
             turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
             if(!turnContinues){waitTicks = 10;}
@@ -259,7 +293,7 @@ public class GameLogicCore {
         
         
         else{System.out.println("Invalid key pressed, did nothing.");
-            turnContinues = true;}
+            turnContinues = true;}*/
         
         if(!turnContinues){
             System.out.println("Current tick is: "+ticker.getTicks()); 
@@ -271,20 +305,12 @@ public class GameLogicCore {
         //System.out.println("Player y is: "+PLAYER.getY());
         return turnContinues;}
         
-    private void setActiveMenu(Menu m){
-        ACTIVEMENU = m;
-    }
-       
+    private void setActiveMenu(Menu m){ACTIVEMENU = m;}  
     
     private boolean isPlayerTurnNext(){
         long nextTick = ticker.getTicks()+1;
         if(ticker.getSchedule().get(nextTick) == null){return false;}
         if(ticker.getSchedule().get(nextTick).contains(PLAYER)){return true;}
-        return false;}
-    
-    private boolean isPlayerTurnCurrent(){
-        long currentTick = ticker.getTicks();
-        if(ticker.getSchedule().containsKey(currentTick)){return true;}
         return false;}
 
     private boolean AttemptMovePlayer(int x, int y){
@@ -295,7 +321,6 @@ public class GameLogicCore {
         PLAYER.setX(x);
         PLAYER.setY(y);
         return false;}
-
     
     /*Rendering and Graphics methods
      *The following methods are all dedicated to rendering functions, sprite ripping and labeling.
