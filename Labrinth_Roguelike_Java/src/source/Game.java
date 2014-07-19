@@ -29,6 +29,7 @@ public class Game extends JPanel {
     int y = 0;
     GameLogicCore CORE = new GameLogicCore(FRAMESIZEX,FRAMESIZEY);
     BufferedImage RENDER_CANVAS;
+    BufferedImage STABLE_CANVAS;
    
     //Menu SPLASHMENU = new Menu();
     //Sprite SPLASHSPRITE; //!!! HACK: this variable is a hack to display a splash image
@@ -39,7 +40,7 @@ public class Game extends JPanel {
             public void keyTyped(KeyEvent e){}
             public void keyReleased(KeyEvent e){}
             public void keyPressed(KeyEvent e){
-                System.out.println("Typed "+e.getKeyChar());
+                //System.out.println("Typed "+e.getKeyChar());
                 //CORE.HandlePlayerNextTick();
                 CORE.ProcessPlayerInput(e);}
         });
@@ -50,7 +51,7 @@ public class Game extends JPanel {
     
     private void gameSetup(){
         RENDER_CANVAS = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
-        
+        STABLE_CANVAS = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
         //!!!HACK
         //These methods should be called within the game as part of setup
         //CORE.loadSpriteSheet();   
@@ -76,6 +77,13 @@ public class Game extends JPanel {
         else if(CORE.menuMode){updateActiveMenu();}    
         //else if(paused){}
         else{renderActiveGame();}
+        
+        //Copies the latest update from RENDER_CANVAS on to the STABLE_CANVAS
+        //for rendering in 'paint()'.
+        //This seems to side step the frame drop issue from before.
+        Graphics g = STABLE_CANVAS.getGraphics();
+        g.drawImage(RENDER_CANVAS,0,0,null);
+        g.dispose();
         }    
   
     private void updateOpeningMenu(){
@@ -157,8 +165,11 @@ public class Game extends JPanel {
                 tmpy++;}
             tmpx++; }
        
-        
-        RENDER_CANVAS = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
+        //!!!NOTE: For some reason this seems to fix the brief frame drops.
+        //Idk, maybe it had to do with reallocating this on the fly?
+        //!!!NOTE: I fixed this issue by adding STABLE_CANVAS, however, I am still removing this
+        //for efficiency.
+        //RENDER_CANVAS = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
         int diffHoriz = FRAMESIZEX - img.getWidth();
         int diffVert = FRAMESIZEY - img.getHeight();
         
@@ -192,27 +203,16 @@ public class Game extends JPanel {
 
     
     public void paint(Graphics g){
+        //STABLE_CANVAS=RENDER_CANVAS;
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(RENDER_CANVAS,0, 0, null);
-    }
+        g2d.drawImage(STABLE_CANVAS,0, 0, null);
+        g2d.dispose();}
     
-    public int getFRAMESIZEX() {
-        return FRAMESIZEX;
-    }
-
-    public void setFRAMESIZEX(int fRAMESIZEX) {
-        FRAMESIZEX = fRAMESIZEX;
-    }
+    public int getFRAMESIZEX() {return FRAMESIZEX;}
+    public void setFRAMESIZEX(int fRAMESIZEX) {FRAMESIZEX = fRAMESIZEX;}
+    public int getFRAMESIZEY() {return FRAMESIZEY;}
+    public void setFRAMESIZEY(int fRAMESIZEY) {FRAMESIZEY = fRAMESIZEY;}
     
-    public int getFRAMESIZEY() {
-        return FRAMESIZEY;
-    }
-
-    public void setFRAMESIZEY(int fRAMESIZEY) {
-        FRAMESIZEY = fRAMESIZEY;
-    }
-    
-
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("Labrinth!");
         Game game = new Game();

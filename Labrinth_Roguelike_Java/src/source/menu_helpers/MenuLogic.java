@@ -18,6 +18,7 @@ public abstract class MenuLogic {
     protected String backgroundPath = "Resources/BWGameGrid.png";
     protected boolean menuActive = true;
     
+    
     public MenuLogic(){
         setMenuElements(new ArrayList<Sprite>());
         loadMenuElements();

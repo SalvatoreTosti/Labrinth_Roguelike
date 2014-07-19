@@ -116,14 +116,14 @@ public class GameLogicCore {
         npcs.add(n);
         for(Actor a: npcs){
             ticker.addToTickList(a,1);
- System.out.println("Added "+a.getName()+" to the list!");}
+            //System.out.println("Added "+a.getName()+" to the list!");
+        }
         //setRENDER_LENSESIZE(5);
     }
     
     private void setupPlayer(){
         PLAYER.setBackpack(new ArrayList<Item>()); 
-    }
-    
+    } 
     
     public void HandleNextTick(){
         if(isPlayerTurnNext()){
@@ -143,7 +143,7 @@ public class GameLogicCore {
     }  
     
     //!!!NOTE:
-    //I think this should be pushed down into somekind of logic handler for the menu.
+    //I think this should be pushed down into some kind of logic handler for the menu.
     //especially seeing as opening menu is a type of menu.
     private void openingMenuInputHandler(KeyEvent e){
         ACTIVEMENU.InputHandler(e);
@@ -170,7 +170,7 @@ public class GameLogicCore {
     private void pausedMenuInputHandler(KeyEvent e){}
     
     private boolean HandlePlayerNextTick(KeyEvent e){
-        boolean turnContinues = false;
+        boolean turnContinues = true; //Default behavior is to continue turn.
         int waitTicks = 0;
         int keycode = e.getKeyCode();
  
@@ -213,21 +213,19 @@ public class GameLogicCore {
             break;
             
         case(KeyEvent.VK_Q):
-            //System.out.println("Lense Size: "+RENDER_LENSE_SIZE);
             RENDER_LENSE_SIZE-=2;
             if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
             else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
             else{}
-            turnContinues = true;
+            //turnContinues = true;
             break;
             
         case(KeyEvent.VK_E):
-            //System.out.println("Lense Size: "+RENDER_LENSE_SIZE);
             RENDER_LENSE_SIZE+=2;
             if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
             else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
             else{}
-            turnContinues = true;
+            //turnContinues = true;
             break;
             
         case(KeyEvent.VK_M):
@@ -236,70 +234,20 @@ public class GameLogicCore {
             //Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
             //m.setMenuBackend(new InventoryBackend(PLAYER));
             setActiveMenu(m);
-            turnContinues = true;
+            //turnContinues = true;
             break;
             
         default: 
-            System.out.println("Invalid key pressed, did nothing.");
-            turnContinues = true;
+            //System.out.println("Invalid key pressed, did nothing.");
+            //turnContinues = true;
             break;
         }
         
-        
-        /*if(keycode == KeyEvent.VK_LEFT){
-            int newX = PLAYER.getX()-1;
-            turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
-            if(!turnContinues){waitTicks = 10;}
-        }
-        else if(keycode == KeyEvent.VK_RIGHT){
-            int newX = PLAYER.getX()+1;
-            turnContinues = AttemptMovePlayer(newX,PLAYER.getY());
-            if(!turnContinues){waitTicks = 10;}
-        }
-        else if(keycode == KeyEvent.VK_UP){
-            int newY = PLAYER.getY()-1;
-            turnContinues = AttemptMovePlayer(PLAYER.getX(),newY);
-            if(!turnContinues){waitTicks = 10;}
-        }
-        else if(keycode == KeyEvent.VK_DOWN){
-            int newY = PLAYER.getY()+1;
-            turnContinues = AttemptMovePlayer(PLAYER.getX(),newY);
-            if(!turnContinues){waitTicks = 10;}
-        }
-        else if(keycode == KeyEvent.VK_Q){ //get view window smaller
-            //System.out.println("Lense Size: "+RENDER_LENSE_SIZE);
-            RENDER_LENSE_SIZE-=2;
-            if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
-            else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
-            else{}
-            turnContinues = true;
-        }
-        else if(keycode == KeyEvent.VK_E){ //get view window bigger
-            //System.out.println("Lense Size: "+RENDER_LENSE_SIZE);
-            RENDER_LENSE_SIZE+=2;
-            if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
-            else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
-            else{}
-            turnContinues = true;
-        }
-        else if(keycode == KeyEvent.VK_M){
-            menuMode = true;
-            Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new PlayerCreationLogic());
-            //Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
-            //m.setMenuBackend(new InventoryBackend(PLAYER));
-            setActiveMenu(m);
-            turnContinues = true;
-        }
-        
-        
-        else{System.out.println("Invalid key pressed, did nothing.");
-            turnContinues = true;}*/
-        
         if(!turnContinues){
-            System.out.println("Current tick is: "+ticker.getTicks()); 
+            //System.out.println("Current tick is: "+ticker.getTicks()); 
             ticker.getSchedule().get(ticker.getTicks()+1).remove(PLAYER);
             ticker.addToTickList(PLAYER,waitTicks);
-            System.out.println("Player turn is over!");
+            //System.out.println("Player turn is over!");
         }
         //System.out.println("Player x is: "+PLAYER.getX());
         //System.out.println("Player y is: "+PLAYER.getY());
@@ -333,7 +281,7 @@ public class GameLogicCore {
         SPRITESHEET = null;
         try {
            SPRITESHEET = ImageIO.read(new File(SPRITEPATH));
-           System.out.println("opened it!");
+           //System.out.println("opened it!");
         } catch (IOException e) {
            System.out.println("it didn't open.");} 
     }
@@ -391,25 +339,6 @@ public class GameLogicCore {
     
     private void loadRandomWorld(){
         WorldBuilder builder = new WorldBuilder(WORLD);
-        builder.buildRandomLabrinth(sprites);
-           
-        
-    /*int sizeX = WORLD.getSizeX();
-    int sizeY = WORLD.getSizeY();
-    for(int i=0;i<sizeX;i++){
-        for(int j=0;j<sizeY;j++){
-            Sprite tmpSprt = null;
-            int pick = (int)(Math.random()*4);
-            if(pick == 0){tmpSprt = sprites.get("Blank");}
-            else if(pick == 1){tmpSprt = sprites.get("Wall_UL");}
-            else if(pick == 2){tmpSprt = sprites.get("Wall_UR");}
-            else if(pick == 3){tmpSprt = sprites.get("Player");}
-            WORLD.tileMap.get(i).get(j).setSprite(tmpSprt);
-        }}*/
-    }
-    
-    
-    
-    
+        builder.buildRandomLabrinth(sprites);}  
 }
 

@@ -10,8 +10,8 @@ public class Director {
         if(obj instanceof Player){
         System.out.print("Player incorrectly passed to Director.");}
         
-        if(obj instanceof NPC)
-        System.out.println(((NPC) obj).getName()+" had a turn!");
+        if(obj instanceof NPC){}
+        //System.out.println(((NPC) obj).getName()+" had a turn!");}
         return 10;
     }
 }
