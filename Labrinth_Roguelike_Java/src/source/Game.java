@@ -95,6 +95,7 @@ public class Game extends JPanel {
         
         Graphics g = RENDER_CANVAS.getGraphics();
         g.drawImage(menu,0,0,null);
+        g.dispose();
     }
     
     private void updateActiveMenu(){
@@ -117,6 +118,7 @@ public class Game extends JPanel {
         
         Graphics g = RENDER_CANVAS.getGraphics();
         g.drawImage(menu,0,0,null);
+        g.dispose();
     }
     
     private void renderActiveGame(){
@@ -199,6 +201,7 @@ public class Game extends JPanel {
         g.drawImage(img,sideBarL.getWidth(),0,null);
         g.drawImage(sideBarR,sideBarL.getWidth()+img.getWidth(),0,null);
         g.drawImage(loBar,0,img.getHeight(),null);
+        g.dispose();
         }
 
     
