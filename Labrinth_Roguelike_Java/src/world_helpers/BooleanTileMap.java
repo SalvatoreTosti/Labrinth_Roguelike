@@ -17,28 +17,12 @@ public class BooleanTileMap {
         }}
     }
     
-    public boolean getValue(int x,int y){
-        return map.get(x).get(y);
-    }
-    public void setValue(int x, int y, boolean b){
-        map.get(x).set(y, b);
-    }
-
-    public int getSizex() {
-        return sizex;
-    }
-
-    public void setSizex(int sizex) {
-        this.sizex = sizex;
-    }
-
-    public int getSizey() {
-        return sizey;
-    }
-
-    public void setSizey(int sizey) {
-        this.sizey = sizey;
-    }
+    public boolean getValue(int x,int y){return map.get(x).get(y);}
+    public void setValue(int x, int y, boolean b){map.get(x).set(y, b);}
+    public int getSizex() {return sizex;}
+    public void setSizex(int sizex) {this.sizex = sizex;}
+    public int getSizey() {return sizey;}
+    public void setSizey(int sizey) {this.sizey = sizey;}
     
     public void invertMap(){
         for(int i=0;i<sizex;i++){

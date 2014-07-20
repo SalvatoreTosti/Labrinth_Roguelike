@@ -39,39 +39,17 @@ public class Sprite {
         else{
             currentFrame++;
             spriteImage = animationFrames[currentFrame];}
-        return;}
+    }
     
-    public BufferedImage getSpriteImage() {
-        return spriteImage;
-    }
-    public void setSpriteImage(BufferedImage sprite) {
-        this.spriteImage = sprite;
-    }
-    public long getAnimationDelay() {
-        return animationDelay;
-    }
-    public void setAnimationDelay(long animationDelay) {
-        this.animationDelay = animationDelay;
-    }
-    public long getLastUpdate() {
-        return lastUpdate;
-    }
-    public void setLastUpdate(long lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-    public int getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public void setCurrentFrame(int currentFrame) {
-        this.currentFrame = currentFrame;
-    }
-
-    public BufferedImage[] getAnimationFrames() {
-        return animationFrames;
-    }
-    public void setAnimationFrames(BufferedImage[] animationFrames) {
-        this.animationFrames = animationFrames;
-    }
+    public BufferedImage getSpriteImage() {return spriteImage;}
+    public void setSpriteImage(BufferedImage sprite) {this.spriteImage = sprite;}
+    public long getAnimationDelay() {return animationDelay;}
+    public void setAnimationDelay(long animationDelay) {this.animationDelay = animationDelay;}
+    public long getLastUpdate() {return lastUpdate;}
+    public void setLastUpdate(long lastUpdate) {this.lastUpdate = lastUpdate;}
+    public int getCurrentFrame() {return currentFrame;}
+    public void setCurrentFrame(int currentFrame) {this.currentFrame = currentFrame;}
+    public BufferedImage[] getAnimationFrames() {return animationFrames;}
+    public void setAnimationFrames(BufferedImage[] animationFrames) {this.animationFrames = animationFrames;}
     
 }

@@ -176,11 +176,6 @@ public class GameLogicCore {
  
         if(menuMode){
             ACTIVEMENU.InputHandler(e);
-            //if(keycode == KeyEvent.VK_M){
-            //    System.out.println("Menu M!");
-            //    menuMode = false;
-            //    turnContinues = true;}
-            //else{turnContinues = true;}
             if(!ACTIVEMENU.getLogic().isMenuActive()){
                 menuMode=false;}
             turnContinues=true;
@@ -217,7 +212,6 @@ public class GameLogicCore {
             if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
             else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
             else{}
-            //turnContinues = true;
             break;
             
         case(KeyEvent.VK_E):
@@ -225,7 +219,6 @@ public class GameLogicCore {
             if(RENDER_LENSE_SIZE<3){RENDER_LENSE_SIZE = 3;}
             else if(RENDER_LENSE_SIZE>11){RENDER_LENSE_SIZE = 11;}
             else{}
-            //turnContinues = true;
             break;
             
         case(KeyEvent.VK_M):
@@ -234,12 +227,10 @@ public class GameLogicCore {
             //Menu m = new Menu(FRAMESIZEX,FRAMESIZEY,new InventoryBackend(PLAYER));
             //m.setMenuBackend(new InventoryBackend(PLAYER));
             setActiveMenu(m);
-            //turnContinues = true;
             break;
             
         default: 
             //System.out.println("Invalid key pressed, did nothing.");
-            //turnContinues = true;
             break;
         }
         
@@ -249,8 +240,6 @@ public class GameLogicCore {
             ticker.addToTickList(PLAYER,waitTicks);
             //System.out.println("Player turn is over!");
         }
-        //System.out.println("Player x is: "+PLAYER.getX());
-        //System.out.println("Player y is: "+PLAYER.getY());
         return turnContinues;}
         
     private void setActiveMenu(Menu m){ACTIVEMENU = m;}  

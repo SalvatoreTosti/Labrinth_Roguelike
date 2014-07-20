@@ -12,6 +12,13 @@ import javax.imageio.stream.ImageInputStream;
 
 import source.Sprite;
 
+/*!!!NOTE:
+ * Methods named with 'load' open a file and then place it somewhere in the program.
+ * They should all return void, because they are self contained.
+ * Methods named with 'open' open a file and then return some type of data using that file.
+ * They should return an object because they are essentially helpers.
+ */
+
 public abstract class MenuLogic {
     protected ArrayList<Sprite> menuElements;
     protected Sprite background;
@@ -22,8 +29,7 @@ public abstract class MenuLogic {
     public MenuLogic(){
         setMenuElements(new ArrayList<Sprite>());
         loadMenuElements();
-        loadBackgroundSprite(getBackgroundPath());
-    }
+        loadBackgroundSprite(getBackgroundPath());}
     
     abstract void loadMenuElements();
     
@@ -37,11 +43,9 @@ public abstract class MenuLogic {
         BufferedImage[] frames = new BufferedImage[1];
         frames[0] = Background;
         Sprite sprt = new Sprite(Background,-1,frames);
-        background = sprt;
-        //return sprt;
-    }
+        background = sprt;}
     
-    protected Sprite loadGIFImage(String location){
+    protected Sprite openGIFImage(String location){
         ArrayList<BufferedImage> spriteAnim = new ArrayList<BufferedImage>();
         ImageReader reader = ImageIO.getImageReadersBySuffix("GIF").next();
         try{
@@ -60,35 +64,13 @@ public abstract class MenuLogic {
     
     public abstract void eventHandler(KeyEvent e);
     
-    public ArrayList<Sprite> getMenuElements() {
-        return menuElements;
-    }
-    public void setMenuElements(ArrayList<Sprite> menuElements) {
-        this.menuElements = menuElements;
-    }
-    public Sprite getBackground() {
-        return background;
-    }
-    public void setBackground(Sprite background) {
-        this.background = background;
-    }
-    
-    public void setBackgroundPath(String s){
-        backgroundPath = s;
-    }
-    
-    public String getBackgroundPath(){
-        return backgroundPath;
-    }
-    
-    public boolean isMenuActive(){
-        return menuActive;
-    }
-    
-    public void setMenuActive(boolean b){
-        menuActive=b;
-    }
-
-    
+    public ArrayList<Sprite> getMenuElements() {return menuElements;}
+    public void setMenuElements(ArrayList<Sprite> menuElements) {this.menuElements = menuElements;}
+    public Sprite getBackground() {return background;}
+    public void setBackground(Sprite background) {this.background = background;}
+    public void setBackgroundPath(String s){backgroundPath = s;}   
+    public String getBackgroundPath(){return backgroundPath;}
+    public boolean isMenuActive(){return menuActive;}
+    public void setMenuActive(boolean b){menuActive=b;}  
 }
 

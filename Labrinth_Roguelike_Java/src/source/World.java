@@ -16,23 +16,9 @@ public class World {
             }}
     }
     
-    public void setTile(int x, int y, Tile tile){
-        getTileMap().get(x).get(y).copyTile(tile);
-    }
-    
-    
-    public ArrayList<ArrayList<Tile>> getTileMap() {
-        return tileMap;
-    }
-
-    public void setTileMap(ArrayList<ArrayList<Tile>> tileMap) {
-        this.tileMap = tileMap;
-    }
-
-    public int getSizeX(){
-        return SIZEX;
-    }
-    public int getSizeY(){
-        return SIZEY;
-    }
+    public void setTile(int x, int y, Tile tile){getTileMap().get(x).get(y).copyTile(tile);}
+    public ArrayList<ArrayList<Tile>> getTileMap() {return tileMap;}
+    public void setTileMap(ArrayList<ArrayList<Tile>> tileMap) {this.tileMap = tileMap;}
+    public int getSizeX(){return SIZEX;}
+    public int getSizeY(){return SIZEY;}
 }

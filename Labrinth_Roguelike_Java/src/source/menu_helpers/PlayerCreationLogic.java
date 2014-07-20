@@ -17,7 +17,7 @@ public class PlayerCreationLogic extends MenuLogic {
     
     void loadMenuElements() {
         //Sprite sprt = loadGIFImage("Resources/SpinArrowClear.gif");
-        Sprite sprt = super.loadGIFImage("Resources/SpinArrowClear.gif");
+        Sprite sprt = super.openGIFImage("Resources/SpinArrowClear.gif");
         //sprt.setAnimationDelay(100);
         LocatedSprite lsprt = new LocatedSprite(sprt,150,232);
         menuElements.add(lsprt);

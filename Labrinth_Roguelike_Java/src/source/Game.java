@@ -61,16 +61,12 @@ public class Game extends JPanel {
        //CORE.loadRandomWorld();
     }
     
-    
-    
     private void updateGameState(){
         if(CORE.openingMenu){}
         else if(CORE.menuMode){}
         else if(CORE.paused){}
         else{CORE.HandleNextTick();}
     }
-
-    
     
     private void updateImg(){
         if(CORE.openingMenu){updateOpeningMenu();}
@@ -84,34 +80,17 @@ public class Game extends JPanel {
         Graphics g = STABLE_CANVAS.getGraphics();
         g.drawImage(RENDER_CANVAS,0,0,null);
         g.dispose();
-        }    
+    }    
   
     private void updateOpeningMenu(){
-        //BufferedImage img = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
-        //Graphics g = img.getGraphics();
-        
         CORE.ACTIVEMENU.updateSpriteFrames();
         BufferedImage menu = CORE.ACTIVEMENU.drawMenu();
-        
         Graphics g = RENDER_CANVAS.getGraphics();
         g.drawImage(menu,0,0,null);
         g.dispose();
     }
     
     private void updateActiveMenu(){
-        /*BufferedImage img = new BufferedImage(FRAMESIZEX,FRAMESIZEY,BufferedImage.TYPE_INT_RGB);
-        Graphics g = img.getGraphics();
-        CORE.ACTIVEMENU.updateSpriteFrames();
-        
-        g.drawImage(CORE.ACTIVEMENU.getBackgroundSprite().getSpriteImage(),0,0,null);
-        for(Sprite s: CORE.ACTIVEMENU.getSpriteList()){
-            if(s instanceof LocatedSprite){
-                int x = ((LocatedSprite) s).getLocationX();
-                int y = ((LocatedSprite) s).getLocationY();
-                g.drawImage(s.getSpriteImage(),x,y,null);
-                }
-            else{g.drawImage(s.getSpriteImage(),0,0,null);}
-        }*/
         if(CORE.ACTIVEMENU==null){System.out.println("Menu is null.");}
         CORE.ACTIVEMENU.updateSpriteFrames();
         BufferedImage menu = CORE.ACTIVEMENU.drawMenu();
@@ -203,10 +182,8 @@ public class Game extends JPanel {
         g.drawImage(loBar,0,img.getHeight(),null);
         g.dispose();
         }
-
     
     public void paint(Graphics g){
-        //STABLE_CANVAS=RENDER_CANVAS;
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(STABLE_CANVAS,0, 0, null);
         g2d.dispose();}
@@ -229,7 +206,5 @@ public class Game extends JPanel {
             game.updateImg();
             game.repaint();
             Thread.sleep(10);}
-    }
-
-   
+    }  
 }
