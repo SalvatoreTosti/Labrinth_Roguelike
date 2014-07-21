@@ -23,7 +23,8 @@ import source.menu_helpers.PlayerCreationLogic;
 import world_helpers.WorldBuilder;
 
 public class GameLogicCore {
-    String SPRITEPATH ="Resources/LabrinthTiles2.png";
+    //String SPRITEPATH ="Resources/LabrinthTiles2.png";
+    String SPRITEPATH ="Resources/MinoanTiles.png";
     int TILESIZE = 16;
     BufferedImage SPRITESHEET;
     HashMap<String, Sprite> sprites = new HashMap<String,Sprite>();
